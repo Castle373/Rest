@@ -130,12 +130,20 @@ public Response getUsuariosQuery(
     }
 
     @DELETE
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response delete(int id) {
+    @Path("{id}")
+    public Response deleteAlumno(@PathParam("id") int id) {
         AlumnosDAO alumnosDAO = new AlumnosDAO();
-        Alumno alumno = new Alumno(id);
-        alumnosDAO.eliminar(alumno);
-        return Response.status(Response.Status.OK).entity(alumno).build();
+        if (id > 0) {
+            Alumno accion = alumnosDAO.eliminar(new Alumno(id));
+
+            if (accion!=null) {
+                  return Response.status(Response.Status.OK).entity(accion).build();
+            } else {
+                return Response.status(Response.Status.NOT_FOUND).build();
+            }
+        } else {
+            return Response.status(Response.Status.NOT_ACCEPTABLE).build();
+        }
     }
 
     @PUT

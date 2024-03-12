@@ -33,22 +33,22 @@ public class ClienteRest {
                 System.out.println(alumno);
             }
             
-            System.out.println("---Buscar Por nombre------");
-            Alumno[] response2 = cliente.getUsuariosQuery(Alumno[].class,"","Diego");
-            for (Alumno alumno : response2) {
-                System.out.println(alumno);
-            }
-            System.out.println("---Buscar Por ID------");
-            Alumno response3 = cliente.getUsuariosQuery(Alumno.class,"1",null);
-            System.out.println(response3);
-            System.out.println("---Agregar------------");
-            Alumno alumnoNuevo = new Alumno("Carmen Hernandez");
-            cliente.addAlumno(alumnoNuevo);
-            System.out.println("---Actualiza------------");
-            Alumno alumnoActualiza = new Alumno(1,"Carmen Hernandez");
-            cliente.actualizarAlumno(alumnoActualiza);
+//            System.out.println("---Buscar Por nombre------");
+//            Alumno[] response2 = cliente.getUsuariosQuery(Alumno[].class,"","Diego");
+//            for (Alumno alumno : response2) {
+//                System.out.println(alumno);
+//            }
+//            System.out.println("---Buscar Por ID------");
+//            Alumno response3 = cliente.getUsuariosQuery(Alumno.class,"1",null);
+//            System.out.println(response3);
+//            System.out.println("---Agregar------------");
+//            Alumno alumnoNuevo = new Alumno("Carmen Hernandez");
+//            cliente.addAlumno(alumnoNuevo);
+//            System.out.println("---Actualiza------------");
+//            Alumno alumnoActualiza = new Alumno(1,"Carmen Hernandez");
+//            cliente.actualizarAlumno(alumnoActualiza);
             System.out.println("Borrar por id");
-            cliente.eliminarPorId("1");
+            cliente.deleteAlumno(String.valueOf(2),Alumno.class);
             
             
 //            System.out.println("------------------------");

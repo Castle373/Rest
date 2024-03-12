@@ -71,17 +71,13 @@ public class ClienteAlumnos {
         return resource.request(MediaType.APPLICATION_JSON).get(responseType);
     }
 
-    public Response delete() throws ClientErrorException {
-        return webTarget.request().delete(Response.class);
-    }
+    public <T> T deleteAlumno(String id, Class<T> responseType) throws ClientErrorException {
+    WebTarget resource = webTarget;
+    resource = resource.path(java.text.MessageFormat.format("{0}", new Object[]{id}));
+    return resource.request(MediaType.APPLICATION_JSON).delete(responseType);
+}
 
-    public Response eliminarPorId(String idAlumno) throws ClientErrorException {
-        
-            WebTarget resource = webTarget.path(idAlumno);
-            return resource.request().delete(Response.class);
-         
-        
-    }
+    
 
     public <T> T getJson(Class<T> responseType) throws ClientErrorException {
         WebTarget resource = webTarget;

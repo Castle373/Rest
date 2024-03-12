@@ -11,6 +11,7 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import ws.ClienteAlumnos;
 
 /**
  *
@@ -21,37 +22,25 @@ public class frmMenu extends javax.swing.JFrame {
     /**
      * Creates new form frmMenu
      */
+    ClienteAlumnos cliente = new ClienteAlumnos();
     DefaultTableModel modeloTabla = new DefaultTableModel();
-    List<Alumno> listaAlumnos = new ArrayList<>();
+    Alumno[] listaAlumnos;
 
     public frmMenu() {
         initComponents();
-        listaAlumnos = new ArrayList<>();
-        listaAlumnos.add(
-                new Alumno(1, "Diego D. Robles"));
-        listaAlumnos.add(
-                new Alumno(2, "Cubaniux"));
-        listaAlumnos.add(
-                new Alumno(3, "Daniel top 5"));
-        listaAlumnos.add(
-                new Alumno(4, "Ivan Estrellita"));
-        listaAlumnos.add(
-                new Alumno(5, "Carmen presi"));
-        listaAlumnos.add(
-                new Alumno(6, "Oscarin disneycito"));
-        consultarTodos(listaAlumnos);
+        consultarTodos();
     }
 
-    public void consultarTodos(List<Alumno> listaAlumnos) {
+    public void consultarTodos() {
         modeloTabla.setRowCount(0);
         modeloTabla.setColumnCount(0);
         tblAlumnos.setModel(modeloTabla);
         modeloTabla.addColumn("ID");
         modeloTabla.addColumn("Nombre");
+        listaAlumnos = cliente.getJson(Alumno[].class);
         for (Alumno alumno : listaAlumnos) {
             Object[] fila = {alumno.getId(), alumno.getNombre()};
             modeloTabla.addRow(fila);
-            System.out.println("Se ha agregado el alumno: " + alumno.getNombre());
         }
         tblAlumnos.repaint();
     }
@@ -63,28 +52,27 @@ public class frmMenu extends javax.swing.JFrame {
         tblAlumnos.setModel(modeloTabla);
         modeloTabla.addColumn("ID");
         modeloTabla.addColumn("Nombre");
+        Alumno alumno = cliente.getById(Alumno.class, String.valueOf(idBuscado));
 
-        for (Alumno alumno : listaAlumnos) {
-            if (alumno.getId() == idBuscado) {
-                Object[] fila = {alumno.getId(), alumno.getNombre()};
-                modeloTabla.addRow(fila);
-                System.out.println("Se ha encontrado el alumno del id " + alumno.getId());
-                break;
-            }
-        }
+        Object[] fila = {alumno.getId(), alumno.getNombre()};
+        modeloTabla.addRow(fila);
+        System.out.println("Se ha encontrado el alumno del id " + alumno.getId());
+
         tblAlumnos.repaint();
     }
 
     public void eliminarPorId(int idAlumno) {
-        for (Iterator<Alumno> iterator = listaAlumnos.iterator(); iterator.hasNext();) {
-            Alumno alumno = iterator.next();
-            if (alumno.getId() == idAlumno) {
-                iterator.remove();
-                System.out.println("Se ha eliminado el alumno con ID: " + idAlumno);
-                break;
-            }
+        
+       Alumno alumno= cliente.deleteAlumno(String.valueOf(idAlumno), Alumno.class);
+        if (alumno!=null) {
+             JOptionPane.showMessageDialog(null, "Eliminado", "Eliminado", JOptionPane.INFORMATION_MESSAGE);
+       
+        }else{
+             JOptionPane.showMessageDialog(null, "No se encontró ningún alumno con el ID proporcionado.", "No encontrado", JOptionPane.INFORMATION_MESSAGE);
+       
         }
-        consultarTodos(listaAlumnos); // Actualizamos la tabla después de la eliminación
+        
+        consultarTodos();
     }
 
     /**
@@ -143,10 +131,22 @@ public class frmMenu extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel1.setText("Consultar por ID:");
 
+        txtID.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtIDActionPerformed(evt);
+            }
+        });
+
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jackblack.png"))); // NOI18N
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel3.setText("Eliminar por ID:");
+
+        txtEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtEliminarActionPerformed(evt);
+            }
+        });
 
         btnEliminarID.setBackground(new java.awt.Color(204, 255, 204));
         btnEliminarID.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -188,7 +188,7 @@ public class frmMenu extends javax.swing.JFrame {
                 .addGap(16, 16, 16)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnConsultarID)
                     .addComponent(jLabel3)
                     .addComponent(txtEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -247,26 +247,22 @@ public class frmMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_btnConsultarIDActionPerformed
 
     private void btnEliminarIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarIDActionPerformed
-        String idTexto = txtID.getText();
-
-        
-
+        String idTexto = txtEliminar.getText();
+        System.out.println(idTexto);
         int idEliminar = Integer.parseInt(idTexto);
-        boolean encontrado = false;
-
-        for (Alumno alumno : listaAlumnos) {
-            if (alumno.getId() == idEliminar) {
-                encontrado = true;
-                eliminarPorId(idEliminar);
-                break;
-            }
-        }
+        eliminarPorId(idEliminar);
 
         // Si el alumno no se encuentra, mostrar un mensaje al usuario
-        if (!encontrado) {
-            JOptionPane.showMessageDialog(null, "No se encontró ningún alumno con el ID proporcionado.", "No encontrado", JOptionPane.INFORMATION_MESSAGE);
-        }
+
     }//GEN-LAST:event_btnEliminarIDActionPerformed
+
+    private void txtIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIDActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtIDActionPerformed
+
+    private void txtEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEliminarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtEliminarActionPerformed
 
     /**
      * @param args the command line arguments
