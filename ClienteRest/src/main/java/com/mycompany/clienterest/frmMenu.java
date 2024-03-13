@@ -101,7 +101,7 @@ public class frmMenu extends javax.swing.JFrame {
             } else {
                 System.out.println("La actualización del alumno con ID: " + idAlumno + " ha sido cancelada.");
             }
-            
+             consultarTodos();
     }
     
     public void insertar(Alumno nuevoAlumno) {
@@ -450,7 +450,7 @@ public class frmMenu extends javax.swing.JFrame {
         String nombre = txtNombre.getText();
 
         if(nombre.isEmpty() || !nombre.matches("\\d+")){
-            Alumno alumnoNuevo = new Alumno(listaAlumnos.length+1,txtInsertar.getText());
+            Alumno alumnoNuevo = new Alumno(txtInsertar.getText());
             insertar(alumnoNuevo);
         }
         
