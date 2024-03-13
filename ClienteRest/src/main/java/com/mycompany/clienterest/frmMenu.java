@@ -90,6 +90,35 @@ public class frmMenu extends javax.swing.JFrame {
         
         consultarTodos();
     }
+    
+    public void actualizar(int idAlumno) {
+       String nombreNuevo = JOptionPane.showInputDialog("Ingrese el nombre nuevo del alumno:");
+            
+            if (nombreNuevo != null && !nombreNuevo.isEmpty()) { // Corrección aquí
+                 Alumno alumnoNuevo = new Alumno(idAlumno, nombreNuevo);
+                 cliente.actualizarAlumno(alumnoNuevo);
+                System.out.println("Se ha actualizado el alumno con ID: " + idAlumno);
+            } else {
+                System.out.println("La actualización del alumno con ID: " + idAlumno + " ha sido cancelada.");
+            }
+            
+    }
+    
+    public void insertar(Alumno nuevoAlumno) {
+        
+        if (nuevoAlumno!=null) {
+             cliente.addAlumno(nuevoAlumno);
+             JOptionPane.showMessageDialog(null, "Insertado", "Insertado", JOptionPane.INFORMATION_MESSAGE);
+       
+        }else{
+             JOptionPane.showMessageDialog(null, "No se encontró ningún alumno con el ID proporcionado.", "No encontrado", JOptionPane.INFORMATION_MESSAGE);
+       
+        }
+        
+        consultarTodos();
+    }
+    
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -113,6 +142,13 @@ public class frmMenu extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         txtNombre = new javax.swing.JTextField();
         btnNombre = new javax.swing.JButton();
+        lblInsertar = new javax.swing.JLabel();
+        txtInsertar = new javax.swing.JTextField();
+        btnInsertar = new javax.swing.JButton();
+        lblActualizar = new javax.swing.JLabel();
+        txtActualizar = new javax.swing.JTextField();
+        btnActualizar = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -188,6 +224,44 @@ public class frmMenu extends javax.swing.JFrame {
             }
         });
 
+        lblInsertar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblInsertar.setText("Insertar:");
+
+        txtInsertar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtInsertarActionPerformed(evt);
+            }
+        });
+
+        btnInsertar.setBackground(new java.awt.Color(204, 255, 204));
+        btnInsertar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnInsertar.setText("Insertar");
+        btnInsertar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInsertarActionPerformed(evt);
+            }
+        });
+
+        lblActualizar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblActualizar.setText("Actualizar:");
+
+        txtActualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtActualizarActionPerformed(evt);
+            }
+        });
+
+        btnActualizar.setBackground(new java.awt.Color(204, 255, 204));
+        btnActualizar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnActualizar.setText("Actualizar");
+        btnActualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActualizarActionPerformed(evt);
+            }
+        });
+
+        jLabel5.setText("Nombre");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -198,14 +272,31 @@ public class frmMenu extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel2)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(txtEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnEliminarID))))
+                                .addComponent(btnEliminarID))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(lblInsertar)
+                                        .addGap(61, 61, 61)
+                                        .addComponent(jLabel5)
+                                        .addGap(39, 39, 39)
+                                        .addComponent(txtInsertar, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(lblActualizar)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(txtActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(btnActualizar)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnInsertar)
+                                .addGap(79, 79, 79))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -245,6 +336,17 @@ public class frmMenu extends javax.swing.JFrame {
                             .addComponent(jLabel3)
                             .addComponent(txtEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnEliminarID))
+                        .addGap(30, 30, 30)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblInsertar)
+                            .addComponent(txtInsertar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnInsertar)
+                            .addComponent(jLabel5))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblActualizar)
+                            .addComponent(txtActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnActualizar))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel2))))
         );
@@ -336,6 +438,35 @@ public class frmMenu extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnNombreActionPerformed
 
+    private void txtInsertarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtInsertarActionPerformed
+        // TODO add your handling code here:
+        
+        
+    }//GEN-LAST:event_txtInsertarActionPerformed
+
+    private void btnInsertarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertarActionPerformed
+        // TODO add your handling code here:
+        
+        String nombre = txtNombre.getText();
+
+        if(nombre.isEmpty() || !nombre.matches("\\d+")){
+            Alumno alumnoNuevo = new Alumno(listaAlumnos.length+1,txtInsertar.getText());
+            insertar(alumnoNuevo);
+        }
+        
+    }//GEN-LAST:event_btnInsertarActionPerformed
+
+    private void txtActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtActualizarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtActualizarActionPerformed
+
+    private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
+        // TODO add your handling code here:
+        String idTexto = txtActualizar.getText();
+        int idActualizar = Integer.parseInt(idTexto);
+        actualizar(idActualizar);
+    }//GEN-LAST:event_btnActualizarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -380,18 +511,25 @@ public class frmMenu extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnActualizar;
     private javax.swing.JButton btnConsultarID;
     private javax.swing.JButton btnEliminarID;
+    private javax.swing.JButton btnInsertar;
     private javax.swing.JButton btnNombre;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblActualizar;
+    private javax.swing.JLabel lblInsertar;
     private javax.swing.JTable tblAlumnos;
+    private javax.swing.JTextField txtActualizar;
     private javax.swing.JTextField txtEliminar;
     private javax.swing.JTextField txtID;
+    private javax.swing.JTextField txtInsertar;
     private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
 }

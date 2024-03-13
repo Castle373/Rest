@@ -1,11 +1,15 @@
 com\mycompany\clienterest\ClienteRest.class
 com\mycompany\clienterest\frmMenu$3.class
+com\mycompany\clienterest\frmMenu$9.class
+ws\ClienteHTTP.class
+com\mycompany\clienterest\frmMenu$4.class
+com\mycompany\clienterest\frmMenu$10.class
+com\mycompany\clienterest\frmMenu$8.class
 com\mycompany\clienterest\frmMenu$6.class
 com\mycompany\clienterest\frmMenu$5.class
+com\mycompany\clienterest\frmMenu$11.class
 com\mycompany\clienterest\frmMenu$7.class
-ws\ClienteHTTP.class
 com\mycompany\clienterest\frmMenu.class
 ws\ClienteAlumnos.class
 com\mycompany\clienterest\frmMenu$1.class
 com\mycompany\clienterest\frmMenu$2.class
-com\mycompany\clienterest\frmMenu$4.class
